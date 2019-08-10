@@ -39,7 +39,8 @@ export default {
                 this.source('终止请求')
             }
         }
-    },
+	},
+	// 利用计算属性与监听属性
 	watch:{
 		// message(newVal){
 		// 	clearTimeout();
