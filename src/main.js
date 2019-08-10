@@ -3,6 +3,12 @@ import App from './App.vue'
 import router from './routers' // 此写法是寻找routers目录下的index.js
 import store from './stores' // 此写法是寻找stores目录下的index.js
 
+import Scroller from '@/components/Scroller'
+Vue.component('Scroller', Scroller);
+
+import Loading from '@/components/Loading'
+Vue.component('Loading', Loading);
+
 import axios from 'axios'
 Vue.prototype.axios = axios;
 
