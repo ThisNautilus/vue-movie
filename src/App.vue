@@ -1,10 +1,7 @@
 <template>
-  <div id="app">
-    
+  <keep-alive>
     <router-view/>
-  </div>
+  </keep-alive>
+    <!-- keep-alive防止每次切换都重新渲染 -->
 </template>
 
-<style lang="scss">
-
-</style>

@@ -1,5 +1,5 @@
 export default {
     path: '/movie',
     component: () =>
-        import ('@/views/Movie')
+        import ('@/views/Movie') // 组件懒加载模式
 }
