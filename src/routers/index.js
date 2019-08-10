@@ -12,6 +12,10 @@ export default new Router({
     routes: [
         movieRouter,
         cinemaRouter,
-        mineRouter
+        mineRouter,
+        {
+            path: '/*',
+            redirect: '/movie' // 重定向，当找不到输入的路由地址时，自动回到主页面
+        }
     ]
 })
