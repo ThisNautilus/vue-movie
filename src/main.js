@@ -3,6 +3,9 @@ import App from './App.vue'
 import router from './routers' // 此写法是寻找routers目录下的index.js
 import store from './stores' // 此写法是寻找stores目录下的index.js
 
+import axios from 'axios'
+Vue.prototype.axios = axios;
+
 Vue.config.productionTip = false
 
 new Vue({
