@@ -26,11 +26,17 @@ export default {
 	data(){
 		return {
 			comingList:[],
-			isLoading:true
+			isLoading:true,
+			preCityId: -1
 		}
 	},
-	mounted(){
-		this.axios.get('/api/movieComingList?cityId=10').then((res)=>{ // 注意接口中是comingList只有一个m
+	activated(){   // 参照nowplaying注释
+		var cityId = this.$store.state.city.id;
+
+		if(this.preCityId === cityId){ return; }
+		this.isLoading = true;
+
+		this.axios.get('/api/movieComingList?cityId=' + cityId).then((res)=>{ // 注意接口中是comingList只有一个m
 			// console.log(res);
 			// console.log(res.data.msg);
 			// console.log(res.data.data.comingList);
@@ -38,6 +44,7 @@ export default {
 			if(res.data.msg === 'ok'){
 				this.comingList = res.data.data.comingList;
 				this.isLoading = false;
+				this.preCityId = cityId;
 			} 
 		})
 	}

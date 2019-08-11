@@ -29,14 +29,22 @@ export default {
 	data(){
 		return {
 			cinemaList:[],
-			isLoading:true
+			isLoading:true,
+			preCityId:-1
 		}
 	},
-	mounted(){
-		this.axios.get('/api/cinemaList?cityId=10').then(res=>{
+	activated(){  // 注释参照nowplaying
+
+		var cityId = this.$store.state.city.id;
+
+		if(this.preCityId === cityId){ return; }
+		this.isLoading = true;
+
+		this.axios.get('/api/cinemaList?cityId=' + cityId).then(res=>{
 			if(res.data.msg === 'ok'){
 				this.isLoading = false;
 				this.cinemaList = res.data.data.cinemas;
+				this.preCityId = cityId;
 			}
 		})
 	},

@@ -53,10 +53,12 @@ export default {
 		// }
 		// 添加防抖：即多次输入（即输入未完成时）的时候防止多次请求
 		message(newVal){
-            var that = this;
-			this.cancelRequest();
+			var that = this;
 			
-            this.axios.get('/api/searchList?cityId=10&kw='+newVal,{
+			var cityId = this.$store.state.city.id;
+
+			this.cancelRequest();
+            this.axios.get('/api/searchList?cityId='+cityId+'&kw='+newVal,{
                 cancelToken: new this.axios.CancelToken(function(c){
                     that.source = c;
                 })

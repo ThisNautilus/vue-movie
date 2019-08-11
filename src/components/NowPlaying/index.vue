@@ -10,7 +10,7 @@
 							<h2>{{item.nm}}</h2><img v-if="item.version" src="@/assets/maxs.png">
 							<p>观众评 <span class="grade">{{item.sc}}</span></p>
 							<p>{{item.star}}</p>
-							<p>{{item.shInfoow}}</p>
+							<p>{{item.showInfo}}</p>
 						</div>
 						<div class="btn_mall">
 							购票
@@ -30,14 +30,21 @@ export default {
 		return {
 			movieList:[],
             pullDownMsg:'',
-            isLoading:true
+            isLoading:true,
+            preCityId:-1
 		}
 	},
-	mounted(){
-		this.axios.get('/api/movieOnInfoList?cityId=10').then((res)=>{
+	activated(){  // mounted生命周期一旦有缓存 keepalive存在时就不会再出发，所以切换城市刷新页面，需要将mounted更好为activated
+        var cityId = this.$store.state.city.id;
+
+        if(this.preCityId === cityId){ return; }  // 如果相同则证明没有切换城市,渲染正在上映切换时（阻止activated）不需要再次ajax请求
+        this.isLoading = true;
+
+        this.axios.get('/api/movieOnInfoList?cityId=' + cityId).then((res)=>{
 			if(res.data.msg === 'ok'){
                 this.movieList = res.data.data.movieList;
                 this.isLoading = false;
+                this.preCityId = cityId;
 				/*this.$nextTick(()=>{
                     var scroll = new BScroll( this.$refs.movie_body , {
                         tap : true,
