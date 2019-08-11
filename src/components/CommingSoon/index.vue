@@ -1,5 +1,7 @@
 <template>
     <div class="movie_body">
+		<Loading v-if="isLoading"/>
+			<Scroller v-else>
 				<ul>
 					<li v-for="item in comingList" :key="item.id">
 						<div class="pic_show"><img :src= "item.img | setWH('128.180')"></div>
@@ -14,6 +16,7 @@
 						</div>
 					</li>
 				</ul>
+			</Scroller>
 			</div>
 </template>
 
@@ -22,17 +25,26 @@ export default {
 	name:'commingsoon',
 	data(){
 		return {
-			comingList:[]
+			comingList:[],
+			isLoading:true,
+			preCityId: -1
 		}
 	},
-	mounted(){
-		this.axios.get('/api/movieComingList?cityId=10').then((res)=>{ // 注意接口中是comingList只有一个m
+	activated(){   // 参照nowplaying注释
+		var cityId = this.$store.state.city.id;
+
+		if(this.preCityId === cityId){ return; }
+		this.isLoading = true;
+
+		this.axios.get('/api/movieComingList?cityId=' + cityId).then((res)=>{ // 注意接口中是comingList只有一个m
 			// console.log(res);
 			// console.log(res.data.msg);
 			// console.log(res.data.data.comingList);
 			
 			if(res.data.msg === 'ok'){
 				this.comingList = res.data.data.comingList;
+				this.isLoading = false;
+				this.preCityId = cityId;
 			} 
 		})
 	}
